@@ -8,14 +8,14 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 require("./routes/api")(app);
-
+var port = process.env.PORT || 4000;
 async function initDB() {
   const db = await mongo.connect();
   if (db) initExpres();
 }
 function initExpres() {
   console.log("iniciando instancia de Express...");
-  app.listen(4000, () => {
+  app.listen(port, () => {
     console.log("el servidor Express está activo");
   });
 
