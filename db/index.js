@@ -1,5 +1,5 @@
 const mongo = require("./connect");
-const db_Name = "battleship";
+const db_Name = "test";
 module.exports = {
   getGames: () => {
     const db = mongo.instance().db(db_Name);

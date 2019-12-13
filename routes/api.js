@@ -3,21 +3,17 @@ const db = require("../db/index");
 
 module.exports = app => {
   app.get(`${API_BASE}/partidas`, async (request, response) => {
-    // console.log("entre a partidas");
     response.json({ data: "probando api" });
   });
 
   app.post(`${API_BASE}/select-board`, async (request, response) => {
-    // console.log(request.body);
     let res = await checkGame(request.body);
-    console.log(res);
     response.json(res);
   });
 
   app.get(
     `${API_BASE}/get-game/:idGame/:idPlayer/:playerNumber`,
     async (request, response) => {
-      console.log(request.params);
       let res = await db.getGame(
         parseInt(request.params.idGame),
         parseInt(request.params.idPlayer),
@@ -34,7 +30,6 @@ module.exports = app => {
   );
 
   app.post(`${API_BASE}/shot`, async (request, response) => {
-    console.log(request.body.idGame);
     let res = await db.getGame(
       request.body.idGame,
       request.body.idPlayer,
@@ -63,17 +58,14 @@ function makeShot(x, y, game, idPlayer) {
         game.player1.turnNumber++;
       } else {
         game.player2.selectedBoard[x][y] = -1;
-        console.log("no acertaste al barco");
         game.player1.turnNumber = 1;
         game.player1.turn = false;
         game.player2.turn = true;
       }
     } else {
-      console.log("Ya pegaste en ese espacio");
     }
     if (!lastZombie(game.player2.selectedBoard)) {
       game.endGame = true;
-      console.log("La partida ha terminado");
     }
   } else if (game.player2.id === idPlayer && game.player2.turn) {
     if (game.player2.playBoard[x][y] === 0) {
@@ -85,21 +77,16 @@ function makeShot(x, y, game, idPlayer) {
         game.player2.turnNumber++;
       } else {
         game.player1.selectedBoard[x][y] = -1;
-        console.log("no acertaste al barco");
         game.player2.turnNumber = 1;
         game.player2.turn = false;
         game.player1.turn = true;
       }
     } else {
-      console.log("Ya pegaste en ese espacio");
     }
     if (!lastZombie(game.player1.selectedBoard)) {
       game.endGame = true;
-      console.log("La partida ha terminado");
     }
   }
-
-  console.log(game);
   return game;
 }
 

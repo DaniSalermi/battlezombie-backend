@@ -1,8 +1,9 @@
 const mongoClient = require("mongodb").MongoClient;
 const dbHost = "localhost";
 const dbPort = 27017;
-const dbName = "battleship";
-const connection_URL = `mongodb://${dbHost}: ${dbPort}`;
+const dbName = "test";
+const connection_URL =
+  "mongodb+srv://battlezombiedn:F0jHMGyV1YMLBZcK@cluster0-xtama.mongodb.net/test?retryWrites=true&w=majority";
 
 module.exports = (() => {
   let instance = null;
@@ -19,6 +20,7 @@ module.exports = (() => {
           }
           console.log("conectando bien al servidor de mongo");
           instance = client;
+          console.log(error);
           resolve(client.db(dbName));
         }
       );
